@@ -23,7 +23,11 @@ int main(void)
 }
 long long Combination(int n, int r)
 {
-	return Permutation(n ,r) / Factorial(r);
+	if (n < r * 2)
+	{
+		r = n - r;
+	}
+	return Permutation(n, r) / Factorial(r);
 }
 
 long long Permutation(int n, int r)
