@@ -4,17 +4,16 @@ using namespace std;
 
 int main(void)
 {
-	int N;
-	int number = 0;
+	int N, movie_count = 0;
 	cin >> N;
-	for (int i = 666; i < 10000000; i++)
+	for (int i = 1; i <= 10000000; i++)
 	{
 		if (to_string(i).find("666") != string::npos)
-			number++;
-		if(number == N)
+			movie_count++;
+		if (movie_count == N)
 		{
 			cout << i << endl;
-			break;
+			return 0;
 		}
 	}
 }

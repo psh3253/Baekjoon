@@ -23,5 +23,7 @@ void star(int N)
 
 int main(void)
 {
-	star(27);
+	int N;
+	cin >> N;
+	star(N);
 }

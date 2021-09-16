@@ -1,34 +1,28 @@
 #include <iostream>
+#include <algorithm>
 using namespace std;
+int A[1001];
+int dp[1001];
 
-int sequence[1000];
-int dp[1000];
-
-int length(int N)
+int main(void)
 {
-	int result = 1;
-	for (int i = 0; i < N; i++)
+	int N, result = 0;
+	cin >> N;
+	for (int i = 1; i < N + 1; i++)
+	{
+		cin >> A[i];
+	}
+	for (int i = 1; i < N + 1; i++)
 	{
 		dp[i] = 1;
-		for (int j = 0; j < i; j++)
+		for (int j = 1; j < i; j++)
 		{
-			if (sequence[j] < sequence[i])
+			if (A[j] < A[i])
 			{
 				dp[i] = max(dp[i], dp[j] + 1);
 			}
 		}
-		result = max(result, dp[i]);
+		result = max(dp[i], result);
 	}
-	return result;
-}
-
-int main(void)
-{
-	int N;
-	cin >> N;
-	for (int i = 0; i < N; i++)
-	{
-		cin >> sequence[i];
-	}
-	cout << length(N) << endl;
+	cout << result << "\n";
 }

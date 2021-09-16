@@ -1,62 +1,57 @@
 #include <iostream>
+#include <algorithm>
 using namespace std;
-char board[50][50];
-int minCount = 64;
-
-void checkSquareCount(int y, int x)
-{
-	int temp = 0;
-	for (int i = 0; i < 8; i++)
-	{
-		for (int j = 0; j < 8; j++)
-		{
-			if ((y + i + x + j) % 2 == 0)
-			{
-				if (board[y + i][x + j] != 'W')
-					temp++;
-			}
-			else
-			{
-				if (board[y + i][x + j] != 'B')
-					temp++;
-			}
-		}
-	}
-	minCount = min(minCount, temp);
-	temp = 0;
-	for (int i = 0; i < 8; i++)
-	{
-		for (int j = 0; j < 8; j++)
-		{
-			if ((y + i + x + j) % 2 == 0)
-			{
-				if (board[y + i][x + j] != 'B')
-					temp++;
-			}
-			else
-			{
-				if (board[y + i][x + j] != 'W')
-					temp++;
-			}
-		}
-	}
-	minCount = min(minCount, temp);
-}
 
 int main(void)
 {
-	int N, M;
+	char board[50][50];
+	int N, M, min_square_count = 64, square_count;
 	cin >> N >> M;
 	for (int i = 0; i < N; i++)
 	{
 		cin >> board[i];
 	}
-	for (int i = 0; i < N - 7; i++)
+	for (int i = 0; i + 7 < N; i++)
 	{
-		for (int j = 0; j < M - 7; j++)
+		for (int j = 0; j + 7 < M; j++)
 		{
-			checkSquareCount(i, j);
+			square_count = 0;
+			for (int k = 0; k < 8; k++)
+			{
+				for (int l = 0; l < 8; l++)
+				{
+					if ((i + k + j + l) % 2 == 0)
+					{
+						if (board[i + k][j + l] != 'B')
+							square_count++;
+					}
+					else
+					{
+						if (board[i + k][j + l] != 'W')
+							square_count++;
+					}
+				}
+			}
+			min_square_count = min(min_square_count, square_count);
+			square_count = 0;
+			for (int k = 0; k < 8; k++)
+			{
+				for (int l = 0; l < 8; l++)
+				{
+					if ((i + k + j + l) % 2 == 0)
+					{
+						if (board[i + k][j + l] != 'W')
+							square_count++;
+					}
+					else
+					{
+						if (board[i + k][j + l] != 'B')
+							square_count++;
+					}
+				}
+			}
+			min_square_count = min(min_square_count, square_count);
 		}
 	}
-	cout << minCount << endl;
+	cout << min_square_count << endl;
 }

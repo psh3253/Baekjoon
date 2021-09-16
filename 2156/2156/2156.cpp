@@ -1,32 +1,31 @@
 #include <iostream>
+#include <algorithm>
 using namespace std;
-
 int wine[10001];
 int dp[10001];
 
-int getMax(int n)
+void getMax(int n)
 {
-	if (n == 1)
-		return dp[n] = wine[n];
-	else if (n == 2)
-		return dp[n] = max(wine[2], max(wine[1] + wine[2], wine[1]));
-	else if (n == 3)
-		return dp[n] = max(wine[1] + wine[3], max(wine[2] + wine[3], wine[1] + wine[2]));
-	else
+	dp[1] = wine[1];
+	dp[2] = wine[1] + wine[2];
+	dp[3] = max({ wine[1] + wine[2], wine[1] + wine[3], wine[2] + wine[3] });
+	for(int i = 4; i < n + 1; i++)
 	{
-		if (dp[n] != 0)
-			return dp[n];
-		return dp[n] = max(getMax(n - 3) + wine[n - 1] + wine[n], max(getMax(n - 2) + wine[n], getMax(n - 1)));
+		dp[i] = max({ wine[i] + dp[i - 2], wine[i] + wine[i - 1] + dp[i - 3], dp[i - 1] });
 	}
 }
 
 int main(void)
 {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
 	int n;
 	cin >> n;
-	for (int i = 1; i <= n; i++)
+	for (int i = 1; i < n + 1; i++)
 	{
 		cin >> wine[i];
 	}
-	cout << getMax(n) << endl;
+	getMax(n);
+	cout << dp[n] << "\n";
 }

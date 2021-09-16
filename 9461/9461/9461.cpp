@@ -1,28 +1,31 @@
 #include <iostream>
 using namespace std;
-
 long long dp[101];
 
-long long sequence(int N)
+long long sequence(int n)
 {
-	if (N == 1 || N == 2 || N == 3)
-		return dp[N] = 1;
+	if (n == 1)
+		return dp[n] = 1;
+	else if (n == 2)
+		return dp[n] = 1;
+	else if (n == 3)
+		return dp[n] = 1;
 	else
 	{
-		if (dp[N] != 0)
-			return dp[N];
-		return dp[N] = sequence(N - 2) + sequence(N - 3);
+		if (dp[n])
+			return dp[n];
+		return dp[n] = sequence(n - 2) + sequence(n - 3);
 	}
 }
 
 int main(void)
 {
-	int T;
-	int N;
+	int T, N;
 	cin >> T;
-	for (int i = 0; i < T; i++)
+	for(int i = 0; i < T; i++)
 	{
 		cin >> N;
-		cout << sequence(N) << "\n";
+		sequence(N);
+		cout << dp[N] << "\n";
 	}
 }

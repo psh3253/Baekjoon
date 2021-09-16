@@ -1,19 +1,17 @@
 #include <iostream>
 using namespace std;
-
 int dp[1000001];
-
-int sequence(int N)
+int sequence(int n)
 {
-	if (N == 1)
-		return dp[1] = 1;
-	else if (N == 2)
-		return dp[2] = 2;
+	if (n == 1)
+		return dp[n] = 1;
+	else if (n == 2)
+		return dp[n] = 2;
 	else
 	{
-		if (dp[N] != 0)
-			return dp[N];
-		return dp[N] = (sequence(N - 1) + sequence(N - 2)) % 15746;
+		if (dp[n])
+			return dp[n];
+		return dp[n] = (sequence(n - 1) + sequence(n - 2)) % 15746;
 	}
 }
 
@@ -21,5 +19,6 @@ int main(void)
 {
 	int N;
 	cin >> N;
-	cout << sequence(N) << endl;
+	sequence(N);
+	cout << dp[N] << "\n";
 }
