@@ -1,29 +1,38 @@
 #include <iostream>
 using namespace std;
+int star[5000][5000];
 
-void star(int N)
+void set_star(int r, int c, int n)
 {
-	if (N == 1)
+	if(n == 1)
 	{
-		cout << "*" << endl;
+		star[r][c] = 1;
 		return;
 	}
-	else
-	{
-		star(N / 3); star(N / 3); star(N / 3);
-		cout << endl;
-		star(N / 3);
-		star(N / 3);
-		cout << endl;
-		star(N / 3); star(N / 3); star(N / 3);
-		cout << endl;
-	}
-
+	set_star(r, c, n / 3);
+	set_star(r, c + n / 3, n / 3);
+	set_star(r, c + 2 * n / 3, n / 3);
+	set_star(r + n / 3, c, n / 3);
+	set_star(r + n / 3, c + 2 * n / 3, n / 3);
+	set_star(r + 2 * n / 3, c, n / 3);
+	set_star(r + 2 * n / 3, c + n / 3, n / 3);
+	set_star(r + 2 * n / 3, c + 2 * n / 3, n / 3);
 }
 
 int main(void)
 {
 	int N;
 	cin >> N;
-	star(N);
+	set_star(0, 0, N);
+	for(int i = 0; i < N; i++)
+	{
+		for(int j = 0; j < N; j++)
+		{
+			if (star[i][j])
+				cout << '*';
+			else
+				cout << ' ';
+		}
+		cout << '\n';
+	}
 }
