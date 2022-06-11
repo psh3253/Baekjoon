@@ -3,7 +3,7 @@
 #include <vector>
 #include <utility>
 #include <algorithm>
-#define INF 1000000
+#define INF 200000000
 using namespace std;
 int min_distance[801];
 vector<pair<int, int>> edge[801];
@@ -40,7 +40,7 @@ int main(void)
 	int N, E;
 	int a, b, c;
 	int v1, v2;
-	int start_v1, start_v2, v1_v2, v2_v1, end_v1, end_v2;
+	int start_v1, start_v2, v1_v2, end_v1, end_v2;
 	cin >> N >> E;
 	for (int i = 0; i < E; i++)
 	{
@@ -57,13 +57,10 @@ int main(void)
 	dijkstra(v1);
 	v1_v2 = min_distance[v2];
 	fill(min_distance, min_distance + N + 1, INF);
-	dijkstra(v2);
-	v2_v1 = min_distance[v1];
-	fill(min_distance, min_distance + N + 1, INF);
 	dijkstra(N);
 	end_v1 = min_distance[v1];
 	end_v2 = min_distance[v2];
-	result = min(start_v1 + v1_v2 + end_v2, start_v2 + v2_v1 + end_v1);
+	result = min(start_v1 + v1_v2 + end_v2, start_v2 + v1_v2 + end_v1);
 	if (result >= INF)
 		cout << -1 << '\n';
 	else
