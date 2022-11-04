@@ -4,29 +4,56 @@
 using namespace std;
 int start_pos, end_pos;
 int N, M;
-vector<pair<int, int>> edge[100000];
-int max_weight[10001];
+
+struct Node
+{
+	int x;
+	long long cost;
+};
+vector<Node> edges[10001];
+long long answer = 0;
 bool visit[10001];
 
-void backtracking(int x)
+bool bfs(long long car_weight)
 {
-	if(x == end_pos)
+	queue<Node> q;
+	q.push({ start_pos, 0 });
+	visit[start_pos] = true;
+	while (!q.empty())
 	{
-		return;
-	}
-	for(int i = 0; i < edge[x].size(); i++)
-	{
-		int nx = edge[x][i].first;
-		int cost = edge[x][i].second;
-		if(!visit[nx])
+		int x = q.front().x;
+		long long cost = q.front().cost;
+		q.pop();
+		for (int i = 0; i < edges[x].size(); i++)
 		{
-			if (max_weight[x] == 0)
-				max_weight[nx] = max(cost, max_weight[nx]);
-			else
-				max_weight[nx] = max(min(max_weight[x], cost), max_weight[nx]);
-			visit[nx] = true;
-			backtracking(nx);
-			visit[nx] = false;
+			int nx = edges[x][i].x;
+			long long next_cost = edges[x][i].cost;
+			if (!visit[nx] && car_weight <= next_cost)
+			{
+				q.push({ nx, next_cost });
+				visit[nx] = true;
+				if (nx == end_pos)
+					return true;
+			}
+		}
+	}
+	return false;
+}
+
+void binary_search(long long left, long long right)
+{
+	while (left <= right)
+	{
+		long long mid = (left + right) / 2;
+		fill_n(visit, 10001, false);
+		if (bfs(mid))
+		{
+			left = mid + 1;
+			answer = max(answer, mid);
+		}
+		else
+		{
+			right = mid - 1;
 		}
 	}
 }
@@ -37,15 +64,17 @@ int main(void)
 	cin.tie(0);
 	cout.tie(0);
 	cin >> N >> M;
+	long long max_weight = 0;
 	for(int i = 0; i < M; i++)
 	{
-		int A, B, C;
+		int A, B;
+		long long C;
 		cin >> A >> B >> C;
-		edge[A].push_back(make_pair(B, C));
-		edge[B].push_back(make_pair(A, C));
+		edges[A].push_back({B, C});
+		edges[B].push_back({A, C});
+		max_weight = max(max_weight, C);
 	}
 	cin >> start_pos >> end_pos;
-	visit[start_pos] = true;
-	backtracking(start_pos);
-	cout << max_weight[end_pos] << '\n';
+	binary_search(1, max_weight);
+	cout << answer << '\n';
 }

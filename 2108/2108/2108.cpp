@@ -1,6 +1,7 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <cmath>
 using namespace std;
 int number[500000];
 int numberCount[8001];
@@ -19,7 +20,10 @@ int main(void)
 		numberCount[4000 + number[i]] += 1;
 	}
 	sort(number, number + N);
-	printf("%.0lf\n", (double)sum / N);
+	int temp = round((double)sum / N);
+	if (temp == -0)
+		temp = 0;
+	printf("%d\n", temp);
 	if (N % 2 == 0)
 		cout << number[N / 2 + 1] << endl;
 	else
@@ -37,8 +41,11 @@ int main(void)
 	}
 	sort(mode.begin(), mode.end());
 	if (mode.size() == 1)
+	{
 		cout << mode[0] << endl;
-	else
+	}
+	else {
 		cout << mode[1] << endl;
+	}
 	cout << number[N - 1] - number[0] << endl;
 }
